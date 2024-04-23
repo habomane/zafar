@@ -1,7 +1,13 @@
 from pydantic import BaseModel
 
-class Name(BaseModel):
-    name: str
-    description: str | None = None
-    price: float
-    tax: float | None = None
+class Comment(BaseModel):
+    comment: str
+    comment_key: str
+    post_key: str
+    date: str
+    post_key: str
+    uuid: str
+    
+class UpdateComment(BaseModel):
+    comment: str
+    post_key: str
