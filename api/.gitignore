@@ -17,6 +17,7 @@ temp/
 .Python
 env/
 .venv/
+.env
 build/
 develop-eggs/
 dist*/
