@@ -15,6 +15,10 @@ def create_user(create_user: CreateUser):
 def create_generic_profile(user: User):
     random_username = shared.generate_username()
     profile = Profile(user.uuid, random_username)
-    return {"_id": user.uuid, **vars(profile)}
+    return {"_id": user.uuid, **vars(profile)}, profile
+
+def set_profile(profile):
+    profile = Profile(profile["uuid"], profile["username"], profile["description"])
+    return profile
 
 

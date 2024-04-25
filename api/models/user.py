@@ -1,12 +1,15 @@
 from pydantic import BaseModel
 
+
+class CreateUser(BaseModel):
+    public_key: str
+
+class GetProfile(BaseModel):
+    username: str
 class User():
     def __init__(self, uuid: str, public_key: str):
         self.uuid = uuid
         self.public_key = public_key
-
-class CreateUser(BaseModel):
-    public_key: str
     
 class Profile():
     def __init__(self, uuid: str, username: str, description=None):
