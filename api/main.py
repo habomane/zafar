@@ -21,17 +21,23 @@ async def get_all_profile():
     return response
 
 
-@app.get("/profile/{username}")
+@app.get("/profile/username/{username}")
 async def get_profile_from_username(username):
     all_profiles = profiles.find()
     response = queries.get_profile_from_username(all_profiles, username)
     return response
-@app.get("/profiles/{uuid}")
+
+@app.get("/profile/uuid/{uuid}")
 async def get_profile_from_uuid(uuid):
     all_profiles = profiles.find()
     response = queries.get_profile_from_uuid(all_profiles, uuid)
     return response
 
+@app.get("/user/{publicKey}")
+async def get_user_from_publicKey(publicKey):
+    all_users = users.find()
+    response = queries.get_user_from_publicKey(all_users, publicKey)
+    return response
 
 @app.post("/register")
 async def register_user(create_user: CreateUser):
@@ -41,7 +47,7 @@ async def register_user(create_user: CreateUser):
     profiles.insert_one(profile_db)
     return vars(profile)
 
-    
+
 ## posts 
 
 

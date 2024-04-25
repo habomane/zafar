@@ -17,12 +17,7 @@ def get_profile_from_uuid(profiles, uuid):
         if profile["uuid"] == uuid:
             return mapping.set_profile(profile)
 
-def get_user_from_uuid(users, uuid):
+def get_user_from_publicKey(users, publicKey):
     for user in users:
-        if user["uuid"] == uuid:
-            return user
-
-def get_user_from_public_key(users, public_key):
-    for user in users:
-        if user["publicKey"] == public_key:
-            return user
+        if user["publicKey"] == publicKey:
+            return mapping.set_user(user)
