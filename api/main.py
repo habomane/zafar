@@ -1,8 +1,10 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 from models import User, CreateUser, GetProfile
 import db
 import queries
 import mapping
+from shared import slap
+
 
 app = FastAPI()
 db = db.get_database()
@@ -20,12 +22,19 @@ async def get_all_profile():
     response = queries.get_all_profiles(all_profiles)
     return response
 
-
+## should recieve a signature in the parameters? 
 @app.get("/profile/username/{username}")
-async def get_profile_from_username(username):
-    all_profiles = profiles.find()
-    response = queries.get_profile_from_username(all_profiles, username)
-    return response
+async def get_profile_from_username(username, signature: str, date: str, publicKey: str):
+    try: 
+        if not slap.verify_signature(signature, date, publicKey):
+            raise HTTPException(status_code=403, detail="Message could not be verified.")
+        response = queries.get_profile_from_username(profiles.find(), username)
+        return response
+    except ValueError:
+        raise HTTPException(status_code=401, detail="Public key and/or signature are not in correct format.")
+    except Exception:
+        raise HTTPException(status_code=401, detail="Public key and/or signature are not in correct format.")
+
 
 @app.get("/profile/uuid/{uuid}")
 async def get_profile_from_uuid(uuid):
