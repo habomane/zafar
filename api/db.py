@@ -23,16 +23,6 @@ class DatabaseManager:
         if cls._instance is None:
             cls._instance = cls()
         return cls._instance.db
-     
-   
-# def get_database():
-#    client = MongoClient(CONNECTION_STRING, server_api=ServerApi('1'))
-#    try:
-#     client.admin.command('ping')
-#     print("Pinged your deployment. You successfully connected to MongoDB!")
-#     return client[DB_NAME]
-#    except Exception as e:
-#         print(e)
 
   
 database_manager = DatabaseManager()

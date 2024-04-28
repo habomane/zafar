@@ -1,16 +1,20 @@
 from typing import Annotated
-from db import get_database
-from fastapi import Header, HTTPException
+from shared import slap
+from fastapi import Header, HTTPException, Query
 
 
-async def get_token_header(x_token: Annotated[str, Header()]):
-    if x_token != "fake-super-secret-token":
-        raise HTTPException(status_code=400, detail="X-Token header invalid")
+async def get_verify_signature(date: Annotated[str, Query()], signature: Annotated[str, Header()], 
+                           publicKey: Annotated[str, Header()]):
+            try:
+                if not slap.verifySignature(signature, date, publicKey):
+                    raise HTTPException(status_code=403, detail="Signature could not be verified.")
+                
+                return {
+                    "publicKey": publicKey,
+                    "signature": signature,
+                    "date": date
+                }
+            except ValueError:
+                raise HTTPException(status_code=401, detail="Public key and/or signature are not in correct format.")
 
 
-async def get_user_collection(token: str):
-    db = get_database()
-    try:
-        yield db["users"]
-    finally:
-        db.close()
