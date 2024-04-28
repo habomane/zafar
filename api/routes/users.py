@@ -1,7 +1,6 @@
-from fastapi import APIRouter, HTTPException, Response, status, Depends, Query, Header, Path
+from fastapi import APIRouter, HTTPException, Response, status, Depends
 from db import DatabaseManager, database_manager
 import dependencies
-from typing import Annotated
 import queries
 
 router = APIRouter()
@@ -9,7 +8,7 @@ router = APIRouter()
 
 @router.get("/user/", tags=["Users"], 
             name="Retrieve user uuid from public key", 
-            description="Providing the public key will allow users to retrieve the corresponding uuid. This unique identifier value can be used to further identify user profiles.")
+            description="Providing the public key in the header will allow users to retrieve the corresponding uuid. This unique identifier value can be used to further identify the corresponding user profile.")
 async def get_user_from_publicKey(response: Response, verification = Depends(dependencies.get_verify_signature),
                                   db : DatabaseManager = Depends(database_manager.get_database)):
     try:
