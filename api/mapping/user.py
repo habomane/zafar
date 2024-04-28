@@ -1,5 +1,4 @@
 from models import CreateUser, User, Profile
-from sessionless import SessionlessSecp256k1
 from shared import slap, generate_username
 
 

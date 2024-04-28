@@ -1,19 +1,38 @@
-from fastapi import FastAPI, HTTPException
+from typing import Annotated
+from fastapi import FastAPI, HTTPException, Header,  Path, Query, status, Request
 from models import User, CreateUser, GetProfile
-import db
+from db import get_database
 import queries
 import mapping
 from shared import slap
+import routes
 
 
 app = FastAPI()
-db = db.get_database()
-
+app.include_router(routes.users.router)
 ## defining collections
 users = db["users"]
 profiles = db["profiles"]
 posts = db["posts"]
 comments = db["comments"]
+    
+@app.get("/itefdkms/{item_id}")
+def read_root(item_id: str, request: Request):
+    client_host = request.client.host
+    return {"client_host": client_host, "item_id": item_id}
+
+@app.get("/items/{item_id}")
+async def read_items(
+    item_id: Annotated[int, Path(alas="The ID of the item to get")],
+    q: Annotated[str | None, Query(alias="item-query")] = None,
+    k: Annotated[str | None, Header(alias="item-header")] = None,
+):
+    results = {"item_id": item_id}
+    if q:
+        results.update({"q": q})
+    if k:
+        results.update({"header": k})
+    return results
 
 ## users 
 @app.get("/profiles")
@@ -24,10 +43,10 @@ async def get_all_profile():
 
 ## should recieve a signature in the parameters? 
 @app.get("/profile/username/{username}")
-async def get_profile_from_username(username, signature: str, date: str, publicKey: str):
+async def get_profile_from_username(username, date: str, signature: str, publicKey: str):
     try: 
         if not slap.verify_signature(signature, date, publicKey):
-            raise HTTPException(status_code=403, detail="Message could not be verified.")
+            raise HTTPException(status_code=403, detail="Signature could not be verified.")
         response = queries.get_profile_from_username(profiles.find(), username)
         return response
     except ValueError:
