@@ -50,7 +50,7 @@ async def get_profile_from_uuid(response: Response, uuid: Annotated[str, Path()]
             name="Register a new profile")
 async def register_profile(new_user: CreateUser, response: Response, 
                            verification = Depends(dependencies.post_verify_signature),
-                           db: DatabaseManager = Depends(database_manager.get_databasebas)):
+                           db: DatabaseManager = Depends(database_manager.get_database)):
     try:
         if not slap.verifySignature(verification["signature"], user, verification["publicKey"]):
             raise HTTPException(403, detail="Signature could not be verified.")
@@ -74,7 +74,7 @@ async def update_profile(updated_profile: UpdateProfile, uuid: Annotated[str, Pa
     try:
         if not slap.verifySignature(verification["signature"], update_profile, verification["publicKey"]):
             raise HTTPException(403, detail="Signature could not be verified.")
-        profile = queries.get_profile_from_uuid(db["profiles"].find(), uuid)
+        profile = queries.get_full_profile_from_uuid(db["profiles"].find(), uuid)
         if profile:
             filter_item = {"_id": profile["_id"]}
             updated_data = {
@@ -86,6 +86,26 @@ async def update_profile(updated_profile: UpdateProfile, uuid: Annotated[str, Pa
             db["profiles"].update_one(filter_item, updated_data)
             response.status_code = status.HTTP_202_ACCEPTED
             return {"message": "Item successfully updated"}
+    except ValueError:
+        raise HTTPException(status_code=401, detail="Public key and/or signature are not in correct format.")
+    except Exception as e:
+        raise HTTPException(500, str(e))
+    
+@router.delete("/profile/{uuid}", tags=["Profiles"],
+            name="Delete a profile")
+async def delete_profile(uuid: Annotated[str, Path()], response: Response,
+                        verification = Depends(dependencies.get_verify_signature),
+                        db : DatabaseManager = Depends(database_manager.get_database)):
+    try:
+        if not slap.verifySignature(verification["signature"], update_profile, verification["publicKey"]):
+            raise HTTPException(403, detail="Signature could not be verified.")
+        profile = queries.get_full_profile_from_uuid(db["profiles"].find(), uuid)
+        user = queries.get_full_user_from_uuid(db["users"].find(), uuid)
+        if profile and user:
+            db["profiles"].delete(profile)
+            db["users"].delete(user)
+            response.status_code = status.HTTP_202_ACCEPTED
+            return {"message": "Item successfully deleted"}
     except ValueError:
         raise HTTPException(status_code=401, detail="Public key and/or signature are not in correct format.")
     except Exception as e:
