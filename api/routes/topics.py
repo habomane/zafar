@@ -9,6 +9,8 @@ import mapping
 
 router = APIRouter()
 
-@router.get("/posts", tags=["Posts"])
-async def get_posts(response: Response):
-    return {"posts"}
+
+@router.get("/topics", tags=["Topics"])
+async def get_topics(response: Response):
+    return {"topics"}
+
