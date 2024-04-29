@@ -4,7 +4,7 @@ class Post(BaseModel):
     title: str
     description: str | None = None
     date: str
-    uuid: str
+    owner_uuid: str
     topic_key: str
     post_key: str
 

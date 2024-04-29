@@ -5,8 +5,7 @@ class Comment(BaseModel):
     comment_key: str
     post_key: str
     date: str
-    post_key: str
-    uuid: str
+    owner_uuid: str
     
 class UpdateComment(BaseModel):
     comment: str
