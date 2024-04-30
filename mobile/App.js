@@ -3,6 +3,12 @@ import { StyleSheet, SafeAreaView, Button,Text, View , ScrollView, FlatList} fro
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
+function Header()
+{
+  return (<View style={styles.testing}><Text>heko</Text></View>)
+}
+
+
 
 function HomeScreen({ navigation }) {
   return (
@@ -23,6 +29,9 @@ function DetailsScreen() {
     </View>
   );
 }
+
+
+
 const Stack = createNativeStackNavigator();
 
 export default function App() {
@@ -33,7 +42,7 @@ export default function App() {
              options={{
               title: '',
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: '#000',
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
@@ -53,5 +62,5 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     alignItems: 'center',
     justifyContent: 'center',
-  },
+  }
 });
