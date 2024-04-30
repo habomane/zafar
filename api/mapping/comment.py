@@ -6,7 +6,7 @@ def create_comment(create_comment: CreateComment):
     comment = Comment(**create_comment)
     return {"_id": uuid, **vars(comment)}, comment
 
-def set_post(post):
+def set_post(comment):
     comment = {
         "comment_key": comment["comment_key"],
         "comment": comment["comment"],
