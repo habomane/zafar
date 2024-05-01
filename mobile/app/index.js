@@ -9,7 +9,7 @@ export default function Page() {
   return (
     <View>
   <Text>Blog post: {slug}</Text>
-  <Link href="/home">Home</Link>
+  <Link href="/home">Homeee</Link>
   </View>
   )
 

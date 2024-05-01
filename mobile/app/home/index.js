@@ -6,5 +6,5 @@ import { Text, View } from 'react-native';
 export default function PageTwo() {
   const { slug } = useLocalSearchParams();
 
-  return (<View><Text>SeCOND PAGE</Text><Link href="/">Go back </Link></View>);
+  return (<View><Text>Second Page</Text><Link href="/profile">Go back </Link></View>);
 }
