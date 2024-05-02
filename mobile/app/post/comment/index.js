@@ -3,7 +3,7 @@ import { useLocalSearchParams } from "expo-router";
 import { Link } from "expo-router";
 import { Text, View } from "react-native";
 
-export default function PostComment() {
+export default function CommentScreen() {
   const { slug } = useLocalSearchParams();
 
   return (

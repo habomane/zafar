@@ -3,17 +3,17 @@ import { useLocalSearchParams } from 'expo-router';
 import { Link } from 'expo-router';
 import { SafeAreaView, Text, View, ScrollView, StyleSheet} from 'react-native';
 
-import Footer from '../utils/footer';
-import Header from '../utils/header';
+import Footer from '../../utils/footer';
+import Header from '../../utils/header';
 
-export default function HomeScreen() {
+export default function AddScreen() {
 
   return (
     <View style={styles.main}>
     <Header style={styles.header}/>
     <View style={styles.body}>
     <ScrollView>
-    <Text>testing</Text>
+    <Text>This is to add a new post</Text>
     </ScrollView>
     </View>
     <Footer style={styles.footer}/>

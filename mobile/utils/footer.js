@@ -9,7 +9,7 @@ export default function Footer({style})
     return (
     <View style={[style, styles.footer]}>
        <View style={styles.footerContainer}>
-        <Link href="/home"><FontAwesome5 name="home" size={32} color="white" /></Link>
+        <Link href="/"><FontAwesome5 name="home" size={32} color="white" /></Link>
         <Link href="/home"><MaterialIcons name="add" size={48} color="white" /></Link>
         <Link href="/home"><FontAwesome name="search" size={30} color="white" /></Link>
        </View>
