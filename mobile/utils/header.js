@@ -1,13 +1,29 @@
-import { View, Text, StyleSheet } from "react-native"
+import { View, Text, StyleSheet, Image } from "react-native";
+import { FontAwesome } from '@expo/vector-icons';
+import { Link } from "expo-router";
 
-export default function Header({style})
-{
-    return (<View style={[style, styles.header]}><Text>header here</Text></View>)
+export default function Header({ style }) {
+  return (
+    <View style={[style, styles.header]}>
+        <View style={styles.headerContainer}>
+        <Link href='/navigation'><FontAwesome name="navicon" size={34} color="black" /></Link>
+        <View  style={styles.img}>
+        <Image source={require('../images/png/user.png')} />
+        </View>
+        </View>
+    </View>
+  );
 }
-
 
 const styles = StyleSheet.create({
-header : {
-    flex: 1
-}
-})
+  header: {
+    flex: 1,
+  },
+  headerContainer : {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    paddingHorizontal: 25
+  }
+});
