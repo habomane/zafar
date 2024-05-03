@@ -13,6 +13,10 @@ router = APIRouter()
 async def get_posts(response: Response):
     return {"posts"}
 
+@router.get("/post/{postKey}", tags=["Posts"])
+async def get_post_from_postKey(response: Response):
+    return {"posts"}
+
 @router.get("/posts/{topicKey}", tags=["Posts"])
 async def get_posts_for_topic(topicKey):
     return {""}

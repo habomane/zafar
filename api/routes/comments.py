@@ -12,3 +12,5 @@ router = APIRouter()
 @router.get("/comments", tags=["Comments"])
 async def get_comments(response: Response):
     return {"comments"}
+
+@router.get("/comments/{postKey}")
