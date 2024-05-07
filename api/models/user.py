@@ -6,6 +6,7 @@ class CreateUser(BaseModel):
 
 class GetProfile(BaseModel):
     username: str
+
 class User():
     def __init__(self, uuid: str, publicKey: str):
         self.uuid = uuid

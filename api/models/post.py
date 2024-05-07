@@ -6,16 +6,16 @@ class CreatePost(BaseModel):
     date: str
     owner_uuid: str
     topic_key: str
-    post_key: str
 
 class Post:
-    def __init__(self, title, description, date, owner_uuid, topic_key, post_key):
+    def __init__(self,  post_key, title, description, date, owner_uuid, topic_key, comments=[]):
         self.title = title
         self.description = description
         self.date = date
         self.owner_uuid = owner_uuid
         self.topic_key = topic_key
         self.post_key = post_key
+        self.comments = comments
 
 class UpdatePost(BaseModel):
     title: str
