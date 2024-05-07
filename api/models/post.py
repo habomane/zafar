@@ -4,17 +4,17 @@ class CreatePost(BaseModel):
     title: str
     description: str | None = None
     date: str
-    owner_uuid: str
-    topic_key: str
+    ownerUuid: str
+    topicKey: str
 
 class Post:
-    def __init__(self,  post_key, title, description, date, owner_uuid, topic_key, comments=[]):
+    def __init__(self,  postKey, title, description, date, ownerUuid, topicKey, comments=[]):
         self.title = title
         self.description = description
         self.date = date
-        self.owner_uuid = owner_uuid
-        self.topic_key = topic_key
-        self.post_key = post_key
+        self.ownerUuid = ownerUuid
+        self.topicKey = topicKey
+        self.postKey = postKey
         self.comments = comments
 
 class UpdatePost(BaseModel):

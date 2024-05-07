@@ -8,10 +8,10 @@ def create_topic(create_topic: CreateTopic):
 
 def set_topic(topic):
     topic = {
-        "topic_key": topic["topic_key"],
+        "topicKey": topic["topicKey"],
         "name": topic["name"],
         "description": topic["description"],
-        "owner_uuid": topic["owner_uuid"]
+        "ownerUuid": topic["ownerUuid"]
     }
     
     return topic

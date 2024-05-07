@@ -5,23 +5,23 @@ from . import set_comment
 def create_post(create_post: CreatePost): 
     postKey = slap.generateUUID()
     post = Post(postKey, create_post.title, create_post.description, create_post.date,
-                create_post.owner_uuid, create_post.topic_key)
+                create_post.ownerUuid, create_post.topicKey)
     return {"_id": postKey, **vars(post)}, post
 
 def set_post(post):
     comments = []
-    
-    for comment in post.comment:
-        mapped_comment = set_comment(comment) 
-        comments.append(mapped_comment)
+    if post["comments"] != []:
+        for comment in post.comment:
+            mapped_comment = set_comment(comment) 
+            comments.append(mapped_comment)
         
     post = {
-        "post_key": post["post_key"],
+        "postKey": post["postKey"],
         "title": post["title"],
         "description": post["description"],
-        "owner_uuid": post["owner_uuid"],
+        "ownerUuid": post["ownerUuid"],
         "date": post["date"],
-        "topic_key": post["topic_key"],
+        "topicKey": post["topicKey"],
         "comments": comments
     }
     

@@ -15,7 +15,7 @@ def get_post_from_postKey(posts, postKey):
 def get_posts_from_uuid(posts, uuid):
     user_posts = []
     for post in posts:
-        if post["owner_uuid"] == uuid:
+        if post["ownerUuid"] == uuid:
             user_posts.append(mapping.set_post(post))
     return user_posts
 
@@ -23,7 +23,7 @@ def get_posts_from_uuid(posts, uuid):
 def get_posts_from_topicKey(posts, topicKey):
     topic_posts = []
     for post in posts:
-        if post["topic_key"] == topicKey:
+        if post["topicKey"] == topicKey:
             topic_posts.append(mapping.set_post(post))
     return topic_posts
 

@@ -102,8 +102,8 @@ async def delete_profile(uuid: Annotated[str, Path()], response: Response,
         profile = queries.get_full_profile_from_uuid(db["profiles"].find(), uuid)
         user = queries.get_full_user_from_uuid(db["users"].find(), uuid)
         if profile and user:
-            db["profiles"].delete(profile)
-            db["users"].delete(user)
+            db["profiles"].delete_one(profile)
+            db["users"].delete_one(user)
             response.status_code = status.HTTP_202_ACCEPTED
             return {"message": "Item successfully deleted"}
     except ValueError:

@@ -16,8 +16,8 @@ async def get_posts(response: Response, db: DatabaseManager = Depends(database_m
         posts_mapped = queries.get_all_posts(posts_unmapped)
         response.status_code = status.HTTP_200_OK
         return posts_mapped
-    except Exception:
-        raise HTTPException(500, detail="Internal server error. Please try again later.")
+    except Exception as e:
+        raise HTTPException(500, detail=str(e))
 
 @router.get("/post/{postKey}", tags=["Posts"])
 async def get_post_from_postKey(response: Response, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
@@ -53,7 +53,7 @@ async def get_posts_from_username(response: Response, username: str, db: Databas
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"message": "Username not found"}
         ## Find posts with the corresponding uuid
-        post = queries.get_posts_from_uuid(db["posts"].find(), profile[""])
+        post = queries.get_posts_from_uuid(db["posts"].find(), profile.uuid)
         if post == []:
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"message": "No posts were found for this user"}
@@ -92,13 +92,13 @@ async def create_post(response: Response, new_post: CreatePost, db: DatabaseMana
 @router.put("/post/{postKey}", tags=["Posts"])
 async def update_post(response: Response, updated_post: UpdatePost, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try:
-        post = queries.get_post_from_postKey(db["profiles"].find(), postKey)
+        post = queries.get_post_from_postKey(db["posts"].find(), postKey)
         if post:
-            filter_item = {"_id": post["_id"]}
+            filter_item = {"_id": post["postKey"]}
             updated_data = {
                 "$set": {
-                    "username": updated_post["username"],
-                    "description": updated_post["description"]
+                    "title": updated_post.title,
+                    "description": updated_post.description
                 }
             }
             db["posts"].update_one(filter_item, updated_data)
@@ -112,9 +112,9 @@ async def update_post(response: Response, updated_post: UpdatePost, postKey: str
 @router.delete("/post/{postKey}", tags=["Posts"])
 async def delete_post(response: Response, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try:
-        post = queries.get_post_from_postKey(db["profiles"].find(), postKey)
+        post = queries.get_post_from_postKey(db["posts"].find(), postKey)
         if post:
-            db["posts"].delete(post)
+            db["posts"].delete_one(post)
             response.status_code = status.HTTP_202_ACCEPTED
             return {"message": "Item successfully deleted"}
     except ValueError:

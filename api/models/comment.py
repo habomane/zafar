@@ -2,19 +2,19 @@ from pydantic import BaseModel
 
 class CreateComment(BaseModel):
     comment: str
-    comment_key: str
-    post_key: str
+    commentKey: str
+    postKey: str
     date: str
-    owner_uuid: str
+    ownerUuid: str
 
 class Comment:
-    def __init__(self, comment, comment_key, post_key, date, owner_uuid):
+    def __init__(self, comment, commentKey, postKey, date, ownerUuid):
         self.comment = comment
-        self.comment_key = comment_key
-        self.post_key = post_key
+        self.commentKey = commentKey
+        self.postKey = postKey
         self.date = date
-        self.owner_uuid: owner_uuid
+        self.ownerUuid: ownerUuid
         
 class UpdateComment(BaseModel):
     comment: str
-    post_key: str
+    postKey: str

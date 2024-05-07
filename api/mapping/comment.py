@@ -8,11 +8,11 @@ def create_comment(create_comment: CreateComment):
 
 def set_comment(comment):
     comment = {
-        "comment_key": comment["comment_key"],
+        "commentKey": comment["commentKey"],
         "comment": comment["comment"],
-        "owner_uuid": comment["owner_uuid"],
+        "ownerUuid": comment["ownerUuid"],
         "date": comment["date"],
-        "post_key": comment["post_key"]
+        "postKey": comment["postKey"]
     }
     
     return comment
