@@ -1,7 +1,6 @@
 from pydantic import BaseModel
 
 class CreateTopic(BaseModel):
-    topicKey: str
     name: str
     description: str | None = None
     ownerUuid: str
