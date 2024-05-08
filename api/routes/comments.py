@@ -55,8 +55,7 @@ async def update_comment(response: Response, commentKey: str, updated_comment: U
             filter_item = {"_id": comment["commentKey"]}
             updated_data = {
                 "$set": {
-                    "name": updated_comment.name,
-                    "description": updated_comment.description
+                    "comment": updated_comment.comment
                 }
             }
             db["comments"].update_one(filter_item, updated_data)

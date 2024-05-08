@@ -115,12 +115,14 @@ async def update_post(response: Response, updated_post: UpdatePost, postKey: str
 async def delete_post(response: Response, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try:
         post = queries.get_post_from_postKey(db["posts"].find(), postKey)
-        if post:
-            db["posts"].delete_one(post)
-            query = {"postKey": {postKey}}
-            db["comments"].delete_many(query)
-            response.status_code = status.HTTP_202_ACCEPTED
-            return {"message": "Item successfully deleted"}
+        if not post:
+            response.status_code = status.HTTP_404_NOT_FOUND
+            return {"error": "Item cannot be found"}
+        query = {"postKey": postKey}
+        db["comments"].delete_many(query)
+        db["posts"].delete_one(post)
+        response.status_code = status.HTTP_202_ACCEPTED
+        return {"message": "Item successfully deleted"}
     except ValueError:
         raise HTTPException(status_code=401, detail="Public key and/or signature are not in correct format.")
     except Exception as e:

@@ -15,4 +15,3 @@ class Comment:
         
 class UpdateComment(BaseModel):
     comment: str
-    postKey: str
