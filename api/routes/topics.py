@@ -34,7 +34,7 @@ async def get_topic_from_topicKey(response: Response, topicKey: str, verificatio
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.topic("/topic", tags=["Topics"])
+@router.post("/topic", tags=["Topics"])
 async def create_topic(response: Response, new_topic: CreateTopic, db: DatabaseManager = Depends(database_manager.get_database)):
     try:
         topic_db, topic = mapping.create_topic(new_topic)
@@ -48,7 +48,7 @@ async def create_topic(response: Response, new_topic: CreateTopic, db: DatabaseM
         raise HTTPException(500, str(e))
 
 @router.put("/topic/{topicKey}", tags=["Topics"])
-async def update_topic(response: Response, topicKey: str, updated_topic: UpdateTopic, verification = Depends(dependencies.get_verify_signature),
+async def update_topic(response: Response, topicKey: str, updated_topic: UpdateTopic,
                            db: DatabaseManager = Depends(database_manager.get_database)):
     try:
         topic = queries.get_topic_from_topicKey(db["topics"].find(), topicKey)
@@ -69,7 +69,7 @@ async def update_topic(response: Response, topicKey: str, updated_topic: UpdateT
         raise HTTPException(500, str(e))
 
 @router.delete("/topic/{topicKey}", tags=["Topics"])
-async def delete_topic(response: Response, topicKey: str, verification = Depends(dependencies.get_verify_signature),
+async def delete_topic(response: Response, topicKey: str,
                            db: DatabaseManager = Depends(database_manager.get_database)):
     try:
         topic = queries.get_topic_from_topicKey(db["topics"].find(), topicKey)
