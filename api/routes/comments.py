@@ -34,9 +34,10 @@ async def get_comment_from_commentKey(response: Response, commentKey: str, db: D
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.post("/comment", tags=["Comments"])
-async def post_comment(response: Response, new_comment: CreateComment, db: DatabaseManager = Depends(database_manager.get_database)):
+async def post_comment(response: Response, new_comment: CreateComment, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try:
         comment_db, comment = mapping.create_comment(new_comment)
+        
         if comment:
             db["comments"].insert_one(comment_db)
             response.status_code = status.HTTP_201_CREATED

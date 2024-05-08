@@ -2,8 +2,6 @@ from pydantic import BaseModel
 
 class CreateComment(BaseModel):
     comment: str
-    commentKey: str
-    postKey: str
     date: str
     ownerUuid: str
 
