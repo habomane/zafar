@@ -16,9 +16,6 @@ class Post:
         self.topicKey = topicKey
         self.postKey = postKey
         self.comments = []
-    
-    def update_comments(self, comments):
-        self.comments = comments
 
 class UpdatePost(BaseModel):
     title: str

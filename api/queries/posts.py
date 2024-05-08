@@ -26,10 +26,9 @@ def get_posts_from_topicKey(posts, topicKey):
         if post["topicKey"] == topicKey:
             topic_posts.append(mapping.set_post(post))
     return topic_posts
-
-
-def get_full_profile_from_uuid(profiles, uuid):
-    for profile in profiles:
-        if profile["uuid"] == uuid:
-            return profile
     
+def update_post_comments(posts, postKey, comment):
+    for post in posts:
+        if post["postKey"] == postKey:
+            post["comments"].append(comment)
+            return post

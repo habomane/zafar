@@ -12,19 +12,19 @@ router = APIRouter()
 @router.get("/comments/{postKey}", tags=["Comments"])
 async def get_comments_from_postKey(response: Response, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try: 
-        post = queries.get_comments_from_postKey(db["comments"].find(), postKey)
-        if post is None:
+        comments = queries.get_comments_from_postKey(db["comments"].find(), postKey)
+        if comments is None:
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"message": "Comments not found"}
         response.status_code = status.HTTP_200_OK
-        return post
+        return comments
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
 @router.get("/comment/{commentKey}", tags=["Comments"])
 async def get_comment_from_commentKey(response: Response, commentKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try: 
-        post = queries.get_comment_from_commentKey(db["posts"].find(), commentKey)
+        post = queries.get_comment_from_commentKey(db["comments"].find(), commentKey)
         if post is None:
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"message": "Comment not found"}
@@ -36,8 +36,7 @@ async def get_comment_from_commentKey(response: Response, commentKey: str, db: D
 @router.post("/comment", tags=["Comments"])
 async def post_comment(response: Response, new_comment: CreateComment, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try:
-        comment_db, comment = mapping.create_comment(new_comment)
-        
+        comment_db, comment = mapping.create_comment(new_comment, postKey)
         if comment:
             db["comments"].insert_one(comment_db)
             response.status_code = status.HTTP_201_CREATED

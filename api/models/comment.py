@@ -11,7 +11,7 @@ class Comment:
         self.commentKey = commentKey
         self.postKey = postKey
         self.date = date
-        self.ownerUuid: ownerUuid
+        self.ownerUuid = ownerUuid
         
 class UpdateComment(BaseModel):
     comment: str

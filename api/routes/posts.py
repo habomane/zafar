@@ -23,10 +23,12 @@ async def get_posts(response: Response, db: DatabaseManager = Depends(database_m
 async def get_post_from_postKey(response: Response, postKey: str, db: DatabaseManager = Depends(database_manager.get_database)):
     try: 
         post = queries.get_post_from_postKey(db["posts"].find(), postKey)
+        post_comments = queries.get_comments_from_postKey(db["comments"].find(), postKey)
         if post is None:
             response.status_code = status.HTTP_404_NOT_FOUND
             return {"message": "Post not found"}
         response.status_code = status.HTTP_200_OK
+        post["comments"].append(post_comments)
         return post
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
@@ -115,6 +117,8 @@ async def delete_post(response: Response, postKey: str, db: DatabaseManager = De
         post = queries.get_post_from_postKey(db["posts"].find(), postKey)
         if post:
             db["posts"].delete_one(post)
+            query = {"postKey": {postKey}}
+            db["comments"].delete_many(query)
             response.status_code = status.HTTP_202_ACCEPTED
             return {"message": "Item successfully deleted"}
     except ValueError:

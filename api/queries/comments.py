@@ -8,10 +8,10 @@ def get_all_comments(comments):
     return all_comments
 
 
-def get_comments_from_postKey(comments, commentKey):
+def get_comments_from_postKey(comments, postKey):
     all_comments = []
     for comment in comments:
-        if comment["commentKey"] == commentKey:
+        if comment["postKey"] == postKey:
             all_comments.append(mapping.set_comment(comment))
     return all_comments
         
