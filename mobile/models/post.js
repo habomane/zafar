@@ -1,4 +1,4 @@
-class CreatePost
+export class CreatePost
 {
     constructor(title, description, topic)
     {

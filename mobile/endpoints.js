@@ -1,4 +1,4 @@
-const DEV_ENDPOINTS = {
+export const DEV_ENDPOINTS = {
   GET_POSTS: "http://127.0.0.1:8000/posts",
   GET_POST_FROM_POSTKEY: "http://127.0.0.1:8000/post/",
   GET_POST_FROM_TOPICKEY: "http://127.0.0.1:8000/posts/topic/",

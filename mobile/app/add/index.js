@@ -19,8 +19,11 @@ import {
 import Footer from "../../utils/footer";
 import Header from "../../utils/header";
 import { useState } from "react";
-import CreatePost from '../../models'
+import CreatePost from '../../models/post'
+import PostService from "../../services/postservice"
 import React from "react";
+
+
 export default function AddScreen() {
   let [fontsLoaded] = useFonts({
     Roboto_900Black,
@@ -31,6 +34,7 @@ export default function AddScreen() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [topic, setTopic] = useState("")
+  const postService = new PostService()
 
   const dummyData = [
     { key: "1", value: "2024 Election" },
@@ -42,6 +46,11 @@ export default function AddScreen() {
 
   if (!fontsLoaded) {
     return null;
+  }
+
+  const handleSubmission = async () => {
+    const post = new CreatePost(title, description, topic)
+    const res = await postService.createPost(post)
   }
 
   return (
