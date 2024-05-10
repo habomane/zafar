@@ -8,7 +8,7 @@ export default function Header({ style }) {
         <View style={styles.headerContainer}>
         <Link href='/navigation'><FontAwesome name="navicon" size={34} color="black" /></Link>
         <View  style={styles.img}>
-        <Image source={require('../images/png/user.png')} />
+        <Link href='/profile'><Image source={require('../images/png/user.png')} /></Link>
         </View>
         </View>
     </View>

@@ -46,7 +46,7 @@ async def get_profile_from_uuid(response: Response, uuid: Annotated[str, Path()]
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
-@router.post("/profile/register", tags=["Profiles"],
+@router.post("/profile", tags=["Profiles"],
             name="Register a new profile")
 async def register_profile(new_user: CreateUser, response: Response, 
                            verification = Depends(dependencies.post_verify_signature),
@@ -66,7 +66,7 @@ async def register_profile(new_user: CreateUser, response: Response,
     except Exception as e:
         raise HTTPException(500, str(e))
 
-@router.put("/profile/update/{uuid}", tags=["Profiles"],
+@router.put("/profile/{uuid}", tags=["Profiles"],
             name="Update a profile")
 async def update_profile(updated_profile: UpdateProfile, uuid: Annotated[str, Path()], response: Response,
                         verification = Depends(dependencies.post_verify_signature),

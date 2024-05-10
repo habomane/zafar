@@ -19,8 +19,8 @@ import {
 import Footer from "../../utils/footer";
 import Header from "../../utils/header";
 import { useState } from "react";
+import CreatePost from '../../models'
 import React from "react";
-
 export default function AddScreen() {
   let [fontsLoaded] = useFonts({
     Roboto_900Black,
@@ -28,16 +28,15 @@ export default function AddScreen() {
     Roboto_400Regular,
     Roboto_500Medium
   });
-  const [selected, setSelected] = React.useState("");
+  const [title, setTitle] = useState("")
+  const [description, setDescription] = useState("")
+  const [topic, setTopic] = useState("")
 
-  const data = [
-    { key: "1", value: "Mobiles" },
-    { key: "2", value: "Appliances" },
-    { key: "3", value: "Cameras" },
-    { key: "4", value: "Computers" },
-    { key: "5", value: "Vegetables" },
-    { key: "6", value: "Diary Products" },
-    { key: "7", value: "Drinks" },
+  const dummyData = [
+    { key: "1", value: "2024 Election" },
+    { key: "2", value: "Food and Culture" },
+    { key: "3", value: "Movies" },
+    { key: "4", value: "Religion" },
   ];
   const [selectedLanguage, setSelectedLanguage] = useState();
 
@@ -56,12 +55,14 @@ export default function AddScreen() {
               <Text style={styles.textBold}>Title here:</Text>
               <TextInput
                 placeholder="Title"
+                onChange={(e) => setTitle(e.value)}
                 style={[styles.input, styles.inputText]}
               ></TextInput>
             </View>
             <View style={styles.description}>
               <Text style={styles.textBold}>Description here:</Text>
               <TextInput
+                onChange={(e) => setDescription(e.value)}
                 style={[styles.input, styles.inputDescription]}
                 multiline={true}
                 placeholder="Details"
@@ -70,8 +71,8 @@ export default function AddScreen() {
             <View style={styles.selectContainer}>
             <Text style={styles.textBold}>Topic:</Text>
               <SelectList
-                setSelected={(val) => setSelected(val)}
-                data={data}
+                setSelected={(val) => setTopic(val)}
+                data={dummyData}
                 save="value"
               />
             </View>
