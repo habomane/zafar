@@ -6,17 +6,18 @@ import Footer from '../utils/footer';
 import Header from '../utils/header';
 import PostCard from '../components/postcard';
 import { PostService } from '../services/postservice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
+
 export default function HomeScreen() {
-  allPosts = []
+  const [allPosts, setAllPosts] = useState([]);
   const postService = new PostService()
+
   useEffect( () => {
     async function fetchData() {
       const posts = await postService.getPosts();
-      allPosts = posts
+      setAllPosts(posts)
     }
     fetchData()
-    
   }, [])
 
   return (
@@ -24,14 +25,11 @@ export default function HomeScreen() {
     <Header style={styles.header}/>
     <View style={styles.body}>
     <ScrollView>
-    <View style={styles.container}>
       {allPosts.map((item, index) => (
         <View key={index}>
           <PostCard post={item}></PostCard>
-          <Text>{item}</Text>
         </View>
       ))}
-    </View>
     </ScrollView>
     </View>
     <Footer style={styles.footer}/>
@@ -51,6 +49,7 @@ main : {
   flex: 1, 
 }, 
 header: {
+  flex: 1, 
   paddingHorizontal: 15
 },
 body : {
@@ -58,7 +57,7 @@ body : {
   paddingHorizontal: 15
 },
 footer: {
-  flex: 10,
+  flex: 1,
   paddingHorizontal: 15
 }
 })
