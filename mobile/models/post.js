@@ -21,3 +21,14 @@ export class CreatePost
 
     }
 }
+
+export class Post {
+    constructor(title, description, author, topic, date)
+    {
+        this.title = title
+        this.description = description
+        this.author = author
+        this.topic = topic
+        this.topic = date
+    }
+}

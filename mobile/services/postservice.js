@@ -1,4 +1,5 @@
 import { DEV_ENDPOINTS } from "../endpoints"
+import { Post } from "../models/post"
 export class PostService {
 
     async getPosts()
@@ -12,7 +13,13 @@ export class PostService {
             }
         })
         const responseData = await response.json()
-        return responseData
+        const posts = await responseData
+        const allPosts = []
+        posts.map((post) => {
+            postMapped = new Post(post["title"], post["description"], post["ownerUuid"], post["topic"], post["date"])
+            allPosts.push(postMapped)
+        })
+        return allPosts;
     }
 
     async getPost(postKey)
