@@ -14,13 +14,14 @@ import {
   Text,
   View,
   ScrollView,
-  StyleSheet,
+  StyleSheet,Alert, Button,
+  TouchableOpacity
 } from "react-native";
 import Footer from "../../utils/footer";
 import Header from "../../utils/header";
 import { useState } from "react";
-import CreatePost from '../../models/post'
-import PostService from "../../services/postservice"
+import {CreatePost} from '../../models/post'
+import {PostService} from "../../services/postservice"
 import React from "react";
 
 
@@ -34,7 +35,10 @@ export default function AddScreen() {
   const [title, setTitle] = useState("")
   const [description, setDescription] = useState("")
   const [topic, setTopic] = useState("")
+  const [createSuccess, setCreateSuccess] = useState(false)
+  const [createFailure, setCreateFailure] = useState(false)
   const postService = new PostService()
+
 
   const dummyData = [
     { key: "1", value: "2024 Election" },
@@ -49,8 +53,20 @@ export default function AddScreen() {
   }
 
   const handleSubmission = async () => {
-    const post = new CreatePost(title, description, topic)
+    const post = new CreatePost(title, description, topic, "ownerUuid")
     const res = await postService.createPost(post)
+    if (res)
+      {
+        setTitle("")
+        setDescription("")
+        setTopic("")
+        setCreateSuccess(true)
+        setCreateFailure(false)
+      }
+    else {
+      setCreateSuccess(false)
+      setCreateFailure(true)
+    }
   }
 
   return (
@@ -64,14 +80,14 @@ export default function AddScreen() {
               <Text style={styles.textBold}>Title here:</Text>
               <TextInput
                 placeholder="Title"
-                onChange={(e) => setTitle(e.value)}
+                onChangeText={setTitle}
                 style={[styles.input, styles.inputText]}
               ></TextInput>
             </View>
             <View style={styles.description}>
               <Text style={styles.textBold}>Description here:</Text>
               <TextInput
-                onChange={(e) => setDescription(e.value)}
+                onChangeText={setDescription}
                 style={[styles.input, styles.inputDescription]}
                 multiline={true}
                 placeholder="Details"
@@ -85,10 +101,19 @@ export default function AddScreen() {
                 save="value"
               />
             </View>
-
-            <View style={styles.greenBtn}>
-              <Text style={styles.whiteText}>Create Post</Text>
+            <View 
+            onPress={() => setTitle("nope")}
+            style={styles.greenBtn}
+            >
+                    <TouchableOpacity
+        onPress={() => handleSubmission()}
+      >
+              <Text style={styles.whiteText}>Create Post</Text></TouchableOpacity>
             </View>
+          </View>
+          <View style={styles.successContainer}>
+            <Text style={createSuccess ? {flex: 1, color: "#00563B"}: styles.hidden}>Successfully created</Text>
+            <Text style={createFailure ? {flex: 1, color: "red"}: styles.hidden}>There was an issue, please try again later</Text>
           </View>
         </ScrollView>
       </View>
@@ -105,6 +130,9 @@ const styles = StyleSheet.create({
   header: {
     paddingHorizontal: 15,
   },
+  hidden: {
+    display: "none"
+  }, 
   row: {
     flex: 1,
     flexDirection: "row",
@@ -120,10 +148,15 @@ const styles = StyleSheet.create({
   greenBtn: {
     backgroundColor: "#00563B",
     padding: 10,
-    marginTop: 30,
+    marginTop: 30
   },
   whiteText: {
     color: "white",
+  },
+  successContainer: {
+    width: "100%",
+    marginTop: 30,
+    alignItems: "center"
   },
   selectContainer: {
     width: "100%",
